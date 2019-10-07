@@ -41,7 +41,6 @@ class DoorSensor:
             bin_indices = np.digitize(flip, bin)
 
 
-        print(bin_indices)
 
         if bin_indices == 0:
             return True

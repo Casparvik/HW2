@@ -25,8 +25,19 @@ class RobotStateEstimation:
         :param sensor_reading_has_door - returns true/false if in front of door
         """
         print("Update sensor, reading {}".format(sensor_reading_has_door))
+
         # begin homework 2 : problem 3
+
         n=0
+
+        if sensor_reading_has_door == True:
+            for x in range(len(self.probabilities)):
+
+                print(type(ds.prob_see_door_if_door))
+                self.probabilities[x] = ds.prob_see_door_if_door
+                print(self.probabilities)
+
+
 
         # Normalize - all the denominators are the same
         # end homework 2 : problem 3
