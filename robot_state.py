@@ -16,12 +16,18 @@ class RobotState:
 
 
     # Make sure probabilities add up to one
-    def set_move_left_probabilities(self, move_left_if_left = 0.8, move_right_if_right = 0.05 ):
+    def set_move_left_probabilities(self, move_left_if_left = 0.8, move_right_if_left = 0.05 ):
         self.prob_move_left_if_left = move_left_if_left
-        self.prob_move_right_if_left = move_right_if_right
+        self.prob_move_right_if_left = move_right_if_left
 
         # begin homework 2 : problem 2
         # check probabilities are correct
+
+        self.bin_left = [self.prob_move_left_if_left, self.prob_move_right_if_left+self.prob_move_left_if_left, (self.prob_move_right_if_left+self.prob_move_left_if_left)+(1-(self.prob_move_right_if_left+self.prob_move_left_if_left))]
+        #Bin zero is The actual movement, one is opposite and 2 is nowhere
+        if self.bin_left[1]>=1:
+            raise ValueError('Probabilities Sum to greater than one')
+
         # end homework 2 : problem 2
 
     def set_move_right_probabilities(self, move_right_if_right = 0.8, move_left_if_right = 0.05 ):
@@ -30,7 +36,12 @@ class RobotState:
 
         # begin homework 2 : problem 2
         # check probabilities are correct
+        self.bin_right = [self.prob_move_right_if_right, self.prob_move_left_if_right + self.prob_move_right_if_right,(self.prob_move_left_if_right + self.prob_move_right_if_right) + (1 - (self.prob_move_left_if_right + self.prob_move_right_if_right))]
+        if self.bin_right[1]>=1:
+            raise ValueError('Probabilities Sum to greater than one')
+
         # end homework 2 : problem 2
+
 
     def adjust_location(self, n_divs):
         div = 1.0 / n_divs
@@ -43,23 +54,46 @@ class RobotState:
             self.robot_loc += step
         else:
             step = 0
-
         return step
 
     # Roll the dice and move
     def move_left(self, step_size):
         # begin homework 2 : problem 2
         # Flip the coin...
+        flip = np.random.uniform(0, 1)
+        #left bin probability
+        bin = self.bin_left
+        print(bin)
+        print(flip)
+        bin_indices = np.digitize(flip, bin)
+        print(bin_indices)
         # Determine whether to move left, right, or stay put - use _move_ to actually move
-        return self._move_(-step_size)
+        if bin_indices==0:
+            return self._move_(-step_size)
+        elif bin_indices==1:
+            return self._move_(step_size)
+        else:
+            return self._move_(0)
         # end homework 2 : problem 3
 
     # Roll the dice and move
     def move_right(self, step_size):
         # begin homework 2 : problem 2
         # Flip the coin...
+        flip = np.random.uniform(0, 1)
+        bin = self.bin_right
+        print(bin)
+        print(flip)
+        bin_indices = np.digitize(flip, bin)
+        print(bin_indices)
         # Determine whether to move left, right, or stay put - use _move_ to actually move
-        return self._move_(step_size)
+        if bin_indices == 0:
+            return self._move_(step_size)
+        elif bin_indices == 1:
+            return self._move_(-step_size)
+        else:
+            return self._move_(0)
+        # Determine whether to move left, right, or stay put - use _move_ to actually move
         # end homework 2 : problem 3
 
 

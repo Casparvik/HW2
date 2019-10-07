@@ -26,6 +26,8 @@ class RobotStateEstimation:
         """
         print("Update sensor, reading {}".format(sensor_reading_has_door))
         # begin homework 2 : problem 3
+        n=0
+
         # Normalize - all the denominators are the same
         # end homework 2 : problem 3
 

@@ -31,7 +31,22 @@ class DoorSensor:
         :return:
         """
         # begin homework 2 : problem 1
-        return True
+        flip = np.random.uniform(0,1)
+        if ws.is_in_front_of_door(rs.robot_loc) == True:
+            bin=[self.prob_see_door_if_door,self.prob_see_door_if_door+ (1-self.prob_see_door_if_door)]
+            bin_indices = np.digitize(flip, bin)
+
+        else:
+            bin = [self.prob_see_door_if_no_door,self.prob_see_door_if_no_door+(1-self.prob_see_door_if_no_door)]
+            bin_indices = np.digitize(flip, bin)
+
+
+        print(bin_indices)
+
+        if bin_indices == 0:
+            return True
+        else:
+            return False
         # end homework 2 : problem 1
 
     # set the probabilities based on the gui
