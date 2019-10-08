@@ -394,7 +394,7 @@ class StateEstimationGUI(QMainWindow):
         else:
             self.robot_scene.action_text = "Asked move left, did not move"
 
-        self.robot_scene.state_estimation.update_belief_move_left( self.robot_scene.robot_state )
+        self.robot_scene.state_estimation.update_belief_move_left( self.robot_scene.robot_state , self.n_probabilities.value())
 
         self.repaint()
 
@@ -408,7 +408,7 @@ class StateEstimationGUI(QMainWindow):
         else:
             self.robot_scene.action_text = "Asked move right, did not move"
 
-        self.robot_scene.state_estimation.update_belief_move_right( self.robot_scene.robot_state )
+        self.robot_scene.state_estimation.update_belief_move_right( self.robot_scene.robot_state, self.n_probabilities.value())
 
         self.repaint()
 

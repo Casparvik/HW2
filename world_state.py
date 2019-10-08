@@ -12,7 +12,7 @@ class WorldState:
 
     def random_door_placement(self, n_doors = 3, n_bins = 20):
         """ Randomly place the doors """
-
+        self.n_bins = n_bins
         div = 1.0 / n_bins
         door_loc = np.zeros( int(n_bins) )
         while sum(door_loc) < n_doors:
@@ -22,10 +22,12 @@ class WorldState:
 
         self.door_width = div * 1.1
         self.doors = []
+
         for i in range(0,len(door_loc)):
             if door_loc[i]:
                 self.doors.append( (i+0.5)*div )
-
+        print('Door')
+        print(self.doors)
 
     # Place the robot in front of the first door (testing routine)
     def place_robot_in_front_of_door(self):
@@ -54,9 +56,12 @@ class WorldState:
         """
         # Based on width of door overlap of robot and door
         door_width = self.door_width / 2
+        #Fix 1.1 bug
+        door_width = door_width/1.1
 
         # Determine percentage in front of door
         inside_door = [abs(robot_loc - d) < door_width for d in self.doors]
+       #print("At Location {} Are you in front of Door {}".format(robot_loc,True in inside_door ))
         if True in inside_door:
             return True
         return False

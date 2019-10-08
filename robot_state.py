@@ -22,8 +22,8 @@ class RobotState:
 
         # begin homework 2 : problem 2
         # check probabilities are correct
-
-        self.bin_left = [self.prob_move_left_if_left, self.prob_move_right_if_left+self.prob_move_left_if_left, (self.prob_move_right_if_left+self.prob_move_left_if_left)+(1-(self.prob_move_right_if_left+self.prob_move_left_if_left))]
+        self.prob_stay_still_left = (1-(self.prob_move_right_if_left+self.prob_move_left_if_left))
+        self.bin_left = [self.prob_move_left_if_left, self.prob_move_right_if_left+self.prob_move_left_if_left, (self.prob_move_right_if_left+self.prob_move_left_if_left)+self.prob_stay_still_left]
         #Bin zero is The actual movement, one is opposite and 2 is nowhere
         if self.bin_left[1]>=1:
             raise ValueError('Probabilities Sum to greater than one')
@@ -36,7 +36,8 @@ class RobotState:
 
         # begin homework 2 : problem 2
         # check probabilities are correct
-        self.bin_right = [self.prob_move_right_if_right, self.prob_move_left_if_right + self.prob_move_right_if_right,(self.prob_move_left_if_right + self.prob_move_right_if_right) + (1 - (self.prob_move_left_if_right + self.prob_move_right_if_right))]
+        self.prob_stay_still_right = (1 - (self.prob_move_left_if_right + self.prob_move_right_if_right))
+        self.bin_right = [self.prob_move_right_if_right, self.prob_move_left_if_right + self.prob_move_right_if_right,(self.prob_move_left_if_right + self.prob_move_right_if_right) + self.prob_stay_still_right]
         if self.bin_right[1]>=1:
             raise ValueError('Probabilities Sum to greater than one')
 
@@ -44,6 +45,7 @@ class RobotState:
 
 
     def adjust_location(self, n_divs):
+
         div = 1.0 / n_divs
         bin = min( n_divs-1, max(0, np.round( self.robot_loc / div ) ) )
         self.robot_loc = (bin + 0.5) * div
@@ -82,10 +84,9 @@ class RobotState:
         # Flip the coin...
         flip = np.random.uniform(0, 1)
         bin = self.bin_right
-        print(bin)
-        print(flip)
+
         bin_indices = np.digitize(flip, bin)
-        print(bin_indices)
+
         # Determine whether to move left, right, or stay put - use _move_ to actually move
         if bin_indices == 0:
             return self._move_(step_size)
