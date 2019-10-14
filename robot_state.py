@@ -65,10 +65,10 @@ class RobotState:
         flip = np.random.uniform(0, 1)
         #left bin probability
         bin = self.bin_left
-        print(bin)
-        print(flip)
+        #print(bin)
+        #print(flip)
         bin_indices = np.digitize(flip, bin)
-        print(bin_indices)
+        #print(bin_indices)
         # Determine whether to move left, right, or stay put - use _move_ to actually move
         if bin_indices==0:
             return self._move_(-step_size)

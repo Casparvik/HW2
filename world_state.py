@@ -26,8 +26,8 @@ class WorldState:
         for i in range(0,len(door_loc)):
             if door_loc[i]:
                 self.doors.append( (i+0.5)*div )
-        print('Door')
-        print(self.doors)
+        #print('Door')
+        #print(self.doors)
 
     # Place the robot in front of the first door (testing routine)
     def place_robot_in_front_of_door(self):
@@ -57,7 +57,7 @@ class WorldState:
         # Based on width of door overlap of robot and door
         door_width = self.door_width / 2
         #Fix 1.1 bug
-        door_width = door_width/1.1
+        #door_width = door_width/1.1
 
         # Determine percentage in front of door
         inside_door = [abs(robot_loc - d) < door_width for d in self.doors]
